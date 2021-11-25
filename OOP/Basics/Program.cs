@@ -5,9 +5,9 @@ namespace Basics
 {
     class Hero
     {
-        private int age;
+        private int _age;
 
-        private string name;
+        private string _name;
 
         public Hero(int age, string name)
         {
@@ -17,19 +17,22 @@ namespace Basics
             if (name == null)
                 throw new ArgumentNullException("Name cannot be null");
 
-            this.age = age;
-            this.name = name;
+            _age = age;
+            _name = name;
         }
 
-        public int GetAge()
+        public int Age
         {
-            return age;
+            get => _age;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Age cannot be negative");
+                _age = value;
+            }
         }
 
-        public string GetName()
-        {
-            return name;
-        }
+        public string Name => _name;
     }
     
     class Program
@@ -39,7 +42,10 @@ namespace Basics
             Hero hero1 = new Hero(36, "Batman");
             // hero1.age = -36;
             // hero1.name = "Batman";
-            Console.WriteLine($"{hero1.GetName()} is {hero1.GetAge()} years old");
+            Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
+            hero1.Age = -50;
+            hero1.Name = "Batwoman";
+            Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
         }
     }
 }
