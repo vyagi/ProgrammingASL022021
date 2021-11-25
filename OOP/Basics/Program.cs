@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using CoolClasses;
 
 namespace Basics
 {
-    class Shape
+    abstract class Shape
     {
-        public virtual double Area() => 0;
+        public abstract double Area();
 
-        public virtual double Perimeter() => 0;
+        public abstract double Perimeter();
     }
 
     class Rectangle : Shape
@@ -27,21 +28,29 @@ namespace Basics
         public override double Perimeter() => 2 * (_a + _b);
     }
 
+    class Circle : Shape
+    {
+        private double _radius;
 
+        public Circle(double radius) => _radius = radius;
+
+        public override double Area() => 
+            Math.PI * _radius * _radius;
+
+        public override double Perimeter() =>
+            2 * Math.PI * _radius;
+    }
 
     class Program
     {
         static void Main(string[] args)
         {
-            Shape s1 = new Shape();
-            Console.WriteLine($"{s1.Area()} {s1.Perimeter()}");
             Shape r1 = new Rectangle(5,6);
             Console.WriteLine($"{r1.Area()} {r1.Perimeter()}");
 
             List<Shape> list = new List<Shape>();
-            list.Add(s1);
             list.Add(r1);
-
+            list.Add(new Circle(10));
             foreach (Shape shape in list)
             {
                 Console.WriteLine(shape.Area());
