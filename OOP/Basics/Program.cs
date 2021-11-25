@@ -1,51 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoolClasses;
 
 namespace Basics
 {
-    class Hero
+    class Shape
     {
-        private int _age;
+        public virtual double Area() => 0;
 
-        private string _name;
-
-        public Hero(int age, string name)
-        {
-            if (age < 0)
-                throw new ArgumentException("Age cannot be negative");
-
-            if (name == null)
-                throw new ArgumentNullException("Name cannot be null");
-
-            _age = age;
-            _name = name;
-        }
-
-        public int Age
-        {
-            get => _age;
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("Age cannot be negative");
-                _age = value;
-            }
-        }
-
-        public string Name => _name;
+        public virtual double Perimeter() => 0;
     }
-    
+
+    class Rectangle : Shape
+    {
+        private readonly double _a;
+        private readonly double _b;
+
+        public Rectangle(double a, double b)
+        {
+            _a = a;
+            _b = b;
+        }
+
+        public override double Area() => _a * _b;
+
+        public override double Perimeter() => 2 * (_a + _b);
+    }
+
+
+
     class Program
     {
         static void Main(string[] args)
         {
-            Hero hero1 = new Hero(36, "Batman");
-            // hero1.age = -36;
-            // hero1.name = "Batman";
-            Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
-            hero1.Age = -50;
-            hero1.Name = "Batwoman";
-            Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
+            Shape s1 = new Shape();
+            Console.WriteLine($"{s1.Area()} {s1.Perimeter()}");
+            Shape r1 = new Rectangle(5,6);
+            Console.WriteLine($"{r1.Area()} {r1.Perimeter()}");
+
+            List<Shape> list = new List<Shape>();
+            list.Add(s1);
+            list.Add(r1);
+
+            foreach (Shape shape in list)
+            {
+                Console.WriteLine(shape.Area());
+            }
+
+            // Hero hero1 = new Hero(36, "Batman");
+            // // hero1.age = -36;
+            // // hero1.name = "Batman";
+            // Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
+            // hero1.Age = -50;
+            // Console.WriteLine($"{hero1.Name} is {hero1.Age} years old");
         }
     }
 }
